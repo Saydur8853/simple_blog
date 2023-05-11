@@ -59,4 +59,4 @@ def weather(request):
     else:
         city = ""
         context = {}
-    return render(request, "index.html", context=context)
+    return render(request, "weather.html", context=context)
