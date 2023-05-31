@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Category Page</title>
+    <style>
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+        }
+
+        .product-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Category Page</h1>
+
+    <div class="product-list">
+        {% for product in products %}
+        <div class="product-item">
+            <h2>{{ product.name }}</h2>
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            <p>Category: {{ product.category.name }}</p>
+            <p>Brand: {{ product.brand.name }}</p>
+            <p>Warranty: {{ product.warranty.name }}</p>
+            <p>Seller: {{ product.seller.name }}</p>
+            <p>Price: ${{ product.price }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
