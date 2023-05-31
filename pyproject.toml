@@ -1,7 +1,7 @@
 [tool.pdm]
 
 [project]
-name = "simple_blog"
+name = "simple_app"
 version = "0.1.0"
 description = "django based simple project"
 authors = [
@@ -12,6 +12,7 @@ dependencies = [
     "djangorestframework>=3.14.0",
     "django-cors-headers>=3.14.0",
     "requests>=2.30.0",
+    "Pillow>=9.5.0",
 ]
 requires-python = ">=3.10"
 readme = "README.md"
