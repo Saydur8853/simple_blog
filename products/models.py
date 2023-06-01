@@ -42,3 +42,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class BannerImage(models.Model):
+    image = models.ImageField(upload_to="banner_images/")
+
+    def __str__(self):
+        return self.image.name

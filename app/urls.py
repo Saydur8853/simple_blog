@@ -19,9 +19,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from products.views import category_page
+from products.views import products_page
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", category_page, name="category_page"),
+    path("", products_page, name="products_page"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

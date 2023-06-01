@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Category Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #5a595923
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+        }
+
+        .product-item {
+            padding: 10px;
+            text-align: center;
+            box-shadow: 5px 5px 19px #c5c2c2;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .product-image {
+            max-width: 90%;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .image_container img:hover {
+            transform: scale(1.1);
+            animation: 1s ease-in-out;
+        }
+
+        .filter-options {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .filter-options label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .filter-options select {
+            margin-bottom: 10px;
+        }
+
+        .selected-price {
+            display: inline-block;
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin-left: 10px;
+        }
+
+        .filter-options {
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .inputs {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 16px;
+        }
+
+        .inputs select {
+            width: 100%;
+            padding: 10px;
+            border: #eee;
+        }
+
+        .inputs input[type="range"] {
+            width: 100%;
+        }
+
+        .selected-price {
+            width: 90%;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 20px;
+            background-color: tomato;
+            outline: none;
+            color: #fff;
+            border: 0px;
+        }
+
+        .image_container {
+            background-color: #ffffff;
+            height: 300px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 20px;
+        }
+
+        .product-item p {
+            text-align: left;
+            margin-bottom: 5px;
+            color: #5a5959;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product_area {
+            background-color: #fff;
+            overflow: hidden;
+            padding: 15PX;
+        }
+
+        .product_area h1 {
+            color: #5a5959;
+            overflow: hidden;
+            margin-bottom: 20px;
+
+        }
+
+        .product_area h2 {
+            margin-bottom: 20px;
+            text-align: left
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="banner">
+        {% if banner_image %}
+        <img src="{{ banner_image.image.url }}" alt="Banner Image" class="banner-image">
+        {% endif %}
+    </div>
+    <div class="container">
+
+
+        <div class="filter-options">
+            <form method="get">
+                <div class="inputs ">
+                    <div class="price">
+                        <label for="price">Price:</label>
+                        <input type="range" id="price" name="price" min="0" max="{{ highest_price }}" step="1"
+                            value="0">
+                    </div>
+                    <input type="text" name="price" id="selected-price" class="selected-price" value="">
+
+                </div>
+                <div class="inputs">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category">
+                        <option value="">All</option>
+                        {% for category in categories %}
+                        <option value="{{ category.name }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="inputs">
+
+                    <label for="brand">Brand:</label>
+                    <select id="brand" name="brand">
+                        <option value="">All</option>
+                        {% for brand in brands %}
+                        <option value="{{ brand.name }}">{{ brand.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="inputs">
+                    <label for="warranty">Warranty:</label>
+                    <select id="warranty" name="warranty">
+                        <option value="">All</option>
+                        {% for warranty in warranties %}
+                        <option value="{{ warranty.name }}">{{ warranty.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="inputs">
+                    <label for="seller">Seller:</label>
+                    <select id="seller" name="seller">
+                        <option value="">All</option>
+                        {% for seller in sellers %}
+                        <option value="{{ seller.name }}">{{ seller.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <input type="submit" class="btn" value="Filter">
+            </form>
+        </div>
+        <div class="product_area">
+            <h1>Products </h1>
+            <div class="product-list">
+                {% for product in products %}
+                <div class="product-item">
+
+                    <div class="image_container">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                    </div>
+                    <h2>{{ product.name }}</h2>
+                    <p>Category: {{ product.category.name }}</p>
+                    <p>Brand: {{ product.brand.name }}</p>
+                    <p>Warranty: {{ product.warranty.name }}</p>
+                    <p>Seller: {{ product.seller.name }}</p>
+                    <p>Price: {{ product.price }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+    </div>
+    <script>
+        var priceRange = document.getElementById("price");
+        var selectedPrice = document.getElementById("selected-price");
+        var productItems = document.getElementsByClassName("product-item");
+
+        priceRange.addEventListener("input", function () {
+            var selectedPriceValue = "" + priceRange.value;
+            selectedPrice.value = selectedPriceValue;
+            filterProductsByPrice(parseFloat(priceRange.value));
+        });
+
+        function filterProductsByPrice(price) {
+            for (var i = 0; i < productItems.length; i++) {
+                var productItem = productItems[i];
+                var productPrice = parseFloat(productItem.querySelector("p.price").innerText.replace("", ""));
+                if (productPrice <= price) {
+                    productItem.style.display = "block";
+                } else {
+                    productItem.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
