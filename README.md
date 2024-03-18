@@ -9,8 +9,8 @@
 3. Open the terminal and navigate to the project directory from the terminal.
 4. This project dependencies managed by PDM https://pdm.fming.dev
     * If you don't have `PDM` installed then install it by typing `pip install --user pdm`.
-5. Install the project dependencies by typing `pdm sync` on the terminal.
-6.Migrate the database by typing `pdm migrate` on the terminal.
+5. Install the project dependencies by typing `python -m pdm sync` or `pdm sync` on the terminal.
+6. Migrate the database by typing `pdm migrate` on the terminal.
 7. Create admin user if you want by typing `pdm createsuperuser` and give the required credentials on the terminal.
 8. Now, Run the project from your **localhost** by typing `pdm start`
 9. Navigate to the URL [127.0.0.1:8000/api](127.0.0.1:8000/api) or [localhost:8000/api](localhost:8000/api) from your browser.
